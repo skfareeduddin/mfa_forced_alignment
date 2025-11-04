@@ -24,7 +24,8 @@ Forced alignment automatically determines the start and end times of words and p
 forced_alignment_mfa/
 ├─ dataset/
 ├─ outputs/                
-├─ praat_screenshots/     
+├─ praat_screenshots/
+├─ report/
 └─ README.md
 ```
 
