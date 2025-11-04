@@ -2,7 +2,6 @@
 
 **Applicant:** Syed Khaja Fareeduddin  
 **Project:** Speech-to-Speech Machine Translation Internship – Assignment 1  
-**Date:** 04-11-2025  
 
 ---
 
