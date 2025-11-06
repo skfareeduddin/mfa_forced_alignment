@@ -26,6 +26,9 @@ forced_alignment_mfa/
 ├─ outputs/                
 ├─ praat_screenshots/
 ├─ report/
+├─ scripts/
+|  ├─ automate_alignment.py
+|  └─ run_alignment.bat
 └─ README.md
 ```
 
@@ -51,7 +54,12 @@ mfa model download dictionary english_us_arpa
 
 ---
 
-## Run Forced Alignment
+## Running Forced Alignment
+You have two options to run the alignment: manually using the MFA CLI command or automatically using the provided Python and batch scripts.
+
+---
+
+## Option 1: Run Forced Alignment (Manual)
 
 ```bash
 mfa align --clean --overwrite "dataset" "path_to_dictionary/english_us_arpa.dict" "path_to_acoustic_model/english_us_arpa.zip" "outputs"
@@ -59,6 +67,77 @@ mfa align --clean --overwrite "dataset" "path_to_dictionary/english_us_arpa.dict
 
 - **dataset**: Path to the folder containing audio and transcript files.  
 - **outputs**: Folder where TextGrid alignment files will be saved.
+
+---
+
+## Option 2: Automation (Extra Credit Work)
+To improve efficiency and reproducibility, the entire alignment process was automated using a Python script and a Windows batch file.
+
+## Python Script - `automate_alignment.py`
+This script dynamically detects the dataset and output paths relative to its location, making it fully portable across systems.
+
+This script runs the complete MFA pipeline with the `--clean` and `--overwrite` flags for all `.wav` and `.txt` pairs in the dataset folder.
+
+<details>
+<summary> Click here to view the python script </summary>
+
+```python
+import os
+import subprocess
+
+# Get the directory where this script is located
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Move one level up (to the project root)
+project_root = os.path.dirname(base_dir)
+
+# Build dynamic paths
+dataset_path = os.path.join(project_root, "dataset")
+output_path = os.path.join(project_root, "outputs")
+
+# Expand user path for pretrained models (cross-platform)
+dict_path = os.path.expanduser(r"~/Documents/MFA/pretrained_models/dictionary/english_us_arpa.dict")
+acoustic_path = os.path.expanduser(r"~/Documents/MFA/pretrained_models/acoustic/english_us_arpa.zip")
+
+# Build the MFA command
+command = [
+    "mfa", "align", "--clean", "--overwrite",
+    dataset_path, dict_path, acoustic_path, output_path
+]
+
+print("Running MFA forced alignment...")
+print("Dataset:", dataset_path)
+print("Dictionary:", dict_path)
+print("Acoustic Model:", acoustic_path)
+print("Output:", output_path)
+
+# Run the command
+subprocess.run(command, check=True)
+print("\n✅ Alignment completed successfully!")
+```
+
+</details>
+
+## Batch File - `run_alignment.bat`
+This batch file activates the Conda environment and runs the Python automation script automatically.
+
+<details>
+<summary> Click here to view the batch file </summary>
+
+```bat
+@echo off
+call conda activate aligner
+python automate_alignment.py
+```
+
+</details>
+
+## How To Use
+
+Simply double-click the `run_alignment.bat` file to automatically:
+- Activate the Conda environment
+- Run the alignment script
+- Generate aligned `.TextGrid` files inside the `outputs/` folder
 
 ---
 
@@ -103,9 +182,11 @@ mfa align --clean --overwrite "dataset" "path_to_dictionary/english_us_arpa.dict
 ---
 
 ## Observations
-- MFA successfully aligned all audio files.  
-- Minor warnings due to single speaker processing, but they did not affect alignment quality.  
-- Viewing results in **Praat** allowed clear visualization of word and phoneme boundaries.  
+- MFA successfully aligned all audio files.
+- The automation script ensures consistent, repeatable results and reduces manual effort.
+- Dynamic path detection allows this script to run seamlessly on any system.
+- Viewing results in Praat provided a clear visual representation of word and phoneme boundaries.
+- Minor warnings (due to single-speaker data) did not impact alignment quality. 
 
 ---
 
