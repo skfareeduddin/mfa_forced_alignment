@@ -1,12 +1,7 @@
 # Forced Alignment using Montreal Forced Aligner (MFA)
 
-**Applicant:** Syed Khaja Fareeduddin  
-**Project:** Speech-to-Speech Machine Translation Internship – Assignment 1  
-
----
-
 ## Objective
-The goal of this assignment is to perform **forced alignment** of speech audio with its corresponding text transcript using **Montreal Forced Aligner (MFA)**.  
+The goal is to perform **forced alignment** of speech audio with its corresponding text transcript using **Montreal Forced Aligner (MFA)**.  
 Forced alignment automatically determines the start and end times of words and phonemes in an audio recording, given the transcript.
 
 ---
@@ -25,7 +20,6 @@ forced_alignment_mfa/
 ├─ dataset/
 ├─ outputs/                
 ├─ praat_screenshots/
-├─ report/
 ├─ scripts/
 |  ├─ automate_alignment.py
 |  └─ run_alignment.bat
